@@ -1,0 +1,32 @@
+AF: Aggregate function (CLR)
+C:  CHECK constraint
+D:  Default or DEFAULT constraint
+F:  FOREIGN KEY constraint
+FN: SQL scalar function
+FS: Assembly (CLR) scalar-function
+FT: Assembly (CLR) table-valued function
+IF: SQL inline table-valued function
+IT: Internal table
+P:  SQL stored procedure
+PC: Assembly (CLR) stored-procedure
+PK: PRIMARY KEY constraint
+RF: Replication filter stored procedure
+S:  System table
+SN: Synonym
+SQ: Service queue
+TA: Assembly (CLR) DML trigger
+TF: SQL table-valued-function
+TR: SQL DML trigger
+TT: Table type
+U:  User table
+UQ: UNIQUE constraint
+V:  View
+X:  Extended stored procedure
+
+You can query the sysobjects view to see these types and their corresponding objects. Here is an example query:
+
+SELECT name, xtype
+FROM sysobjects
+ORDER BY xtype;
+
+This query will list all objects in the database along with their types, sorted by the xtype column.

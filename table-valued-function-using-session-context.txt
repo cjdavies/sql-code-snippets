@@ -1,0 +1,44 @@
+A table-valued function (TVF) in SQL Server can be created to utilize session context. Session context allows you to store and retrieve session-specific information using the SESSION_CONTEXT function. Here's a step-by-step guide to creating a TVF that uses session context:
+
+Step 1: Set Session Context
+
+First, you need to set a session context key-value pair. This can be done using the sp_set_session_context stored procedure.
+
+EXEC sp_set_session_context @key = N'UserID', @value = 12345;
+
+Step 2: Create the Table-Valued Function
+
+Next, create a table-valued function that retrieves data based on the session context.
+
+CREATE FUNCTION dbo.GetUserOrders()
+RETURNS @Orders TABLE
+(
+    OrderID INT,
+    OrderDate DATETIME,
+    OrderAmount DECIMAL(10, 2)
+)
+AS
+BEGIN
+    DECLARE @UserID INT;
+    SET @UserID = CONVERT(INT, SESSION_CONTEXT(N'UserID'));
+
+    INSERT INTO @Orders
+    SELECT OrderID, OrderDate, OrderAmount
+    FROM Orders
+    WHERE UserID = @UserID;
+
+    RETURN;
+END;
+
+Step 3: Use the Table-Valued Function
+
+You can now use the TVF in your queries to get the orders for the user specified in the session context.
+
+SELECT * FROM dbo.GetUserOrders();
+
+Explanation
+Setting Session Context: The sp_set_session_context procedure sets a session-specific key-value pair. In this example, the key is UserID and the value is 12345.
+Creating the TVF: The dbo.GetUserOrders function retrieves the UserID from the session context and uses it to filter orders from the Orders table.
+Using the TVF: The function can be called in a SELECT statement to retrieve the relevant orders.
+
+This approach ensures that the function dynamically adapts to the session-specific context, making it versatile and secure for multi-user environments.
