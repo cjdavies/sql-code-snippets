@@ -1,0 +1,23 @@
+USE [DEMO];
+GO
+SET ANSI_NULLS ON;
+GO
+SET QUOTED_IDENTIFIER ON;
+GO
+
+CREATE SCHEMA Security;
+GO
+
+CREATE FUNCTION [Security].[fn_RLSFilter]
+(
+    @tenant_id INT
+)
+RETURNS TABLE
+WITH SCHEMABINDING
+AS
+RETURN
+(
+    SELECT 1 AS AccessResult
+     WHERE @tenant_id = CONVERT(INT, SESSION_CONTEXT(N'tenant_id'))
+);
+GO

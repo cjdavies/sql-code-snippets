@@ -1,6 +1,19 @@
 /* Excludes system databases. */
 EXEC sys.sp_MSforeachdb  
-'IF ''?'' NOT IN (''master'', ''model'', ''msdb'', ''tempdb'') 
+'IF ''?'' NOT IN (
+     ''Admin'',
+     ''AdventureWorks2012'',
+     ''DBA'',
+     ''DEID'',
+     ''DMR'',
+     ''master'',
+     ''model'',
+     ''msdb'',
+     ''plumtree5_esc3'',
+     ''smtp'',
+     ''Temp_Object_Repository'',
+     ''tempdb''
+     ) 
 BEGIN     
     SELECT 
         ''?'' AS DatabaseName, 
