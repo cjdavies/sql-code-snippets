@@ -31,10 +31,10 @@ SELECT
     o.type_desc AS ObjectType,
     m.definition AS ObjectDefinition
 FROM sys.sql_modules m
-JOIN sys.objects o ON m.object_id = o.object_id
+    JOIN sys.objects o ON m.object_id = o.object_id
 --WHERE m.definition LIKE '%table \#%'  ESCAPE '\'
 WHERE PATINDEX('%create%table[ ]#%', m.definition) > 0
-  AND o.type IN ('P', 'FN', 'IF', 'TF')
+    AND o.type IN ('P', 'FN', 'IF', 'TF')
 ORDER BY SchemaName, ObjectName;
 
 

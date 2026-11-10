@@ -26,7 +26,8 @@ SELECT
     t.temporal_type_desc AS TemporalTypeDesc
 FROM sys.tables t
 JOIN sys.schemas s ON t.schema_id = s.schema_id
-WHERE t.temporal_type = 2; 
+WHERE t.temporal_type = 2
+ORDER BY DatabaseName, SchemaName, TableName
 ';
 
 SELECT * FROM #MyResults

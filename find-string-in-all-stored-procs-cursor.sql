@@ -1,5 +1,6 @@
+/* Find SELECT * in all stored procedures, functions, and triggers */
 DROP TABLE IF EXISTS #modlines;
-
+GO
 CREATE TABLE #modlines
 (
     SchemaName NVARCHAR(128),
@@ -7,6 +8,7 @@ CREATE TABLE #modlines
     LineNumber INT,
     Line       NVARCHAR(MAX)
 );
+GO
 
 INSERT INTO #modlines
     (
@@ -34,9 +36,10 @@ FROM
     JOIN sys.objects o ON m.object_id = o.object_id
 WHERE o.type IN ('P', 'FN', 'IF', 'TF')
 ORDER BY SchemaName, ObjectName, LineNumber;
+GO
 
 DROP TABLE IF EXISTS #selectlines;
-
+GO
 CREATE TABLE #selectlines
 (
     SchemaName NVARCHAR(128),
@@ -44,7 +47,7 @@ CREATE TABLE #selectlines
     LineNumber INT,
     Line       NVARCHAR(MAX)
 );
-
+GO
 
 DECLARE @SchemaName     NVARCHAR(128);
 DECLARE @ObjectName     NVARCHAR(128);
@@ -69,11 +72,11 @@ FETCH NEXT FROM TableCursor INTO @SchemaName, @ObjectName, @LineNumber, @Line;
 WHILE @@FETCH_STATUS = 0
 BEGIN
     SELECT @StrLen = LEN(@Line);
-    SELECT @Pos = CHARINDEX('select ', @Line);
+    SELECT @Pos = CHARINDEX('SELECT ', @Line);
     IF @StrLen > 0 AND @Pos > 0
         SELECT @Pos = CHARINDEX('*', SUBSTRING(@Line, @Pos+7, @StrLen-@Pos-7));
     IF @Pos > 0
-            INSERT INTO #selectlines
+        INSERT INTO #selectlines
         (
         SchemaName,
         ObjectName,
@@ -89,3 +92,4 @@ CLOSE TableCursor;
 DEALLOCATE TableCursor;
 DROP TABLE IF EXISTS #modlines;
 DROP TABLE IF EXISTS #selectlines;
+GO

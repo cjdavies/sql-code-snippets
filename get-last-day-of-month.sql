@@ -1,0 +1,1 @@
+SELECT DAY(EOMONTH(GETDATE())) AS LastDayNumber;

@@ -1,6 +1,6 @@
-SELECT database_id, name
+SELECT database_id, [name]
   FROM sys.databases
- WHERE name NOT IN 
+ WHERE [name] NOT IN 
  (
      'Admin',
      'AdventureWorks2012',
@@ -14,4 +14,5 @@ SELECT database_id, name
      'smtp',
      'Temp_Object_Repository',
      'tempdb'
- );
+ )
+AND (database_id > 5 AND database_id < 16384);

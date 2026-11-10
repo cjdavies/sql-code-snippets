@@ -4,7 +4,8 @@ GO
 /* Calculate total storage used by user objects only */
 SELECT 
     DB_NAME() AS DatabaseName,
-    CAST(SUM(a.total_pages) * 8 / 1024.0 AS DECIMAL(18,2)) AS TotalUsedMB
+    CAST(SUM(a.total_pages) * 8 / 1024.0 AS DECIMAL(18,2)) AS TotalUsedMB,
+    CAST(SUM(a.total_pages) * 8 / 1024.0 / 1024.0 AS DECIMAL(18,2)) AS TotalUsedGB
 FROM 
     sys.objects o
     INNER JOIN sys.indexes i 
@@ -47,7 +48,8 @@ BEGIN
     USE [?];
     SELECT
         DB_NAME() AS DatabaseName,
-        CAST(SUM(a.total_pages) * 8 / 1024.0 AS DECIMAL(18,2)) AS TotalUsedMB
+        CAST(SUM(a.total_pages) * 8 / 1024.0 AS DECIMAL(18,2)) AS TotalUsedMB,
+        CAST(SUM(a.total_pages) * 8 / 1024.0 / 1024.0 AS DECIMAL(18,2)) AS TotalUsedGB
     FROM sys.objects o
     INNER JOIN sys.indexes i 
         ON o.object_id = i.object_id

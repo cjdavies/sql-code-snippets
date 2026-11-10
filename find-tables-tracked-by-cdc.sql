@@ -8,3 +8,12 @@ BEGIN
      WHERE t.is_tracked_by_cdc = 1
      ORDER BY DatabaseName, SchemaName, TableName
 END'; 
+
+SELECT
+    DB_NAME()            AS DatabaseName,
+    s.[name]             AS SchemaName,
+    t.[name]             AS TableName
+FROM sys.tables t
+JOIN sys.schemas s ON t.schema_id = s.schema_id
+WHERE t.is_tracked_by_cdc = 1
+ORDER BY DatabaseName, SchemaName, TableName;
